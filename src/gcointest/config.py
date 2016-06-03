@@ -1,17 +1,20 @@
 
+node1 = 'core1.diqi.us_5566_11224_/home/skz/.bitcoin'
+node2 = 'core1.diqi.us_55688_11114_/home/skz/.bitcoin1'
+node3 = 'core2.diqi.us_5566_11224_/home/skz/.bitcoin'
+node4 = 'core2.diqi.us_55661_11221_/home/skz/.bitcoin1'
+
 roledefs = {
-    'alliance': ['core1.diqi.us', 'core2.diqi.us'],
-    'issuer': ['core1.diqi.us', 'core2.diqi.us'],
-    'others': ['core1.diqi.us', 'core2.diqi.us'],
+    'alliance':[node1, node2, node3, node4],
+    'issuer': [node1, node2, node3, node4],
+    'others': [node1, node2, node3, node4],
     'monitor': [],
 }
 
-remote_user = 'sig'
-ssh_key_filename = '/Users/sig/.ssh/id_rsa'
+remote_user = 'skz'
+ssh_key_filename = '/home/skz/.ssh/id_rsa.pub'
 
 # bitcoind configuration
-port = 55888
-rpcport = 12345
 rpcthreads = 20
 
 NUM_ADDRESS_PER_NODE = 30

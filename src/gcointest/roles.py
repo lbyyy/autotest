@@ -56,7 +56,7 @@ class BaseRole(object):
         return self.proxy.getaddressbalance(bitcoinaddress)
 
     def getlicenseinfo(self):
-        return self.proxy.getlicenseinfo()
+        return self.proxy.getlicenselist()
 
     def getrawtransaction(self, txid, verbose=True):
         if verbose:
@@ -136,7 +136,7 @@ class Alliance(BaseRole):
 
     def mint_0(self, amount):
         for i in xrange(amount):
-            tx_hash = self.proxy.mint(amount, 0)
+            tx_hash = self.proxy.mint(1, 0)
 
         return self._wait_for_maturity(tx_hash, config.COINBASE_MATURITY)
 
@@ -191,4 +191,5 @@ class Alliance(BaseRole):
                 return True
             else:
                 return False
-
+    def membernum(self):
+        return len(self.proxy.getmemberlist()['member_list'])

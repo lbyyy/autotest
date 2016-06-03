@@ -49,7 +49,7 @@ class BaseTest(object):
         for host in env.hosts:
             if host == env.host:
                 continue
-            role.addnode(host, config.port)
+            role.addnode(host.split('_')[0], host.split('_')[1])
 
         result['wallet'] = role.listwalletaddress(config.NUM_ADDRESS_PER_NODE)
         return result
@@ -106,9 +106,9 @@ class AutoTest(BaseTest):
     def vote_and_send_color1_coins(self):
         alliance = Alliance(env.host, self.collect_addresses[env.host]['default'])
 
+        num_alliance = len(env.roledefs['alliance'][0:])
         if env.host == env.roledefs['alliance'][0]:
-            num_alliance = len(env.roledefs['alliance'][1:])
-            alliance.mint_0(num_alliance)
+            alliance.mint_0(num_alliance - 1)
             for host in env.roledefs['alliance'][1:]:
                 alliance.vote(self.collect_addresses[host]['default'])
 
@@ -121,10 +121,15 @@ class AutoTest(BaseTest):
                 '''
         else:
             while not alliance.is_alliance():
-                time.sleep(1)
-            my_pos = env.roledefs['alliance'].index(env.host)
-            for host in env.roledefs['alliance'][my_pos+1:]:
-                alliance.vote(self.collect_addresses[host]['default'])
+                time.sleep(3)
+
+            num_mint = num_alliance - alliance.membernum()
+            if num_mint > 0:
+                alliance.mint_0(num_mint)
+                my_pos = env.roledefs['alliance'].index(env.host)
+                for host in env.roledefs['alliance'][1:]:
+                    if not host == env.host:
+                        alliance.vote(self.collect_addresses[host]['default'])
 
     @hosts(env.roledefs['alliance'][0])
     def apply_license_1(self):
