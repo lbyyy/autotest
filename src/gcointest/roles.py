@@ -53,7 +53,7 @@ class BaseRole(object):
             loop_cnt -= 1
 
     def getaddressbalance(self, bitcoinaddress):
-        return self.proxy.getaddressbalance(bitcoinaddress)
+        return self.proxy.getaddressbalance(bitcoinaddress, 0)
 
     def getlicenseinfo(self):
         return self.proxy.getlicenselist()
@@ -95,7 +95,6 @@ class BaseRole(object):
     def reset_and_restart(self):
         self.proxy.stop(warn_only=True)
         self.proxy.reset()
-
         return self.start()
 
     def restart(self):
@@ -141,7 +140,7 @@ class Alliance(BaseRole):
         return self._wait_for_maturity(tx_hash, config.COINBASE_MATURITY)
 
     def start_mining(self):
-        return self.proxy.setgenerate("true")
+        return self.proxy.setgenerate("true", 1)
 
     def vote(self, bitcoinaddress):
         return self.proxy.sendvotetoaddress(bitcoinaddress)

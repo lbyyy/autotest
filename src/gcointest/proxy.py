@@ -26,7 +26,7 @@ class AuthServiceProxy(object):
             raise self._exception_wrapper(error)
 
     def start(self):
-        command = (('$HOME/opensource/src/gcoind -daemon -reindex -logip -debug -datadir=' +
+        command = (('$HOME/gcoin/src/gcoind -daemon -reindex -logip -debug -datadir=' +
                     self.host.split('_')[3] +
                   ' -port={0} -rpcport={1} -rpcthreads={2}').format(self.host.split('_')[1], self.host.split('_')[2], config.rpcthreads))
         resp = run(command)
@@ -36,10 +36,9 @@ class AuthServiceProxy(object):
 
     def reset(self):
         time.sleep(3)
-        command = ("rm -rf " + self.host.split('_')[3] + '/gcoin')
+        command = ("rm -rf " + self.host.split('_')[3] + '/main')
         with settings(warn_only=True):
             return run(command)
-
 
 class RPCMethod(object):
 
@@ -51,7 +50,7 @@ class RPCMethod(object):
         warn_only = kwargs.pop("warn_only", False)
 
         parameter = ' '.join(str(i) for i in args)
-        command = ('$HOME/opensource/src/gcoin-cli -datadir=' + self._service_proxy.host.split('_')[3] + '  {method} {param}').format(method=self._method_name,
+        command = ('$HOME/gcoin/src/gcoin-cli -datadir=' + self._service_proxy.host.split('_')[3] + '  {method} {param}').format(method=self._method_name,
                                                                                param = parameter)
         with settings(warn_only=True):
             f = open(self._service_proxy.host.split('_')[0] + self._service_proxy.host.split('_')[1] + '.txt','a')

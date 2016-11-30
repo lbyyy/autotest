@@ -105,12 +105,16 @@ class AutoTest(BaseTest):
     @parallel
     def vote_and_send_color1_coins(self):
         alliance = Alliance(env.host, self.collect_addresses[env.host]['default'])
-
         num_alliance = len(env.roledefs['alliance'][0:])
+
         if env.host == env.roledefs['alliance'][0]:
             alliance.mint_0(num_alliance - 1)
+            membernum = alliance.membernum()
             for host in env.roledefs['alliance'][1:]:
                 alliance.vote(self.collect_addresses[host]['default'])
+                while membernum == alliance.membernum() and membernum != 8:
+                    time.sleep(3)
+                membernum = alliance.membernum()
 
                 '''
                 # send lot of color 1 coin to other alliance (for the use of activate member)
@@ -127,9 +131,13 @@ class AutoTest(BaseTest):
             if num_mint > 0:
                 alliance.mint_0(num_mint)
                 my_pos = env.roledefs['alliance'].index(env.host)
-                for host in env.roledefs['alliance'][1:]:
+                membernum = alliance.membernum()
+                for host in env.roledefs['alliance'][my_pos:]:
                     if not host == env.host:
                         alliance.vote(self.collect_addresses[host]['default'])
+                        while membernum == alliance.membernum() and membernum != 8:
+                            time.sleep(3)
+                        membernum = alliance.membernum()
 
     @hosts(env.roledefs['alliance'][0])
     def apply_license_1(self):
@@ -220,6 +228,12 @@ class AutoTest(BaseTest):
         role = BaseRole(env.host)
         balances = role.getaddressbalance(from_address)
         if not balances.has_key(str(color)) or not balances.has_key("1") or int(balances[color]) < amount:
+            f = open(env.host.split('_')[0] + env.host.split('_')[1] + '.txt','a')
+            if not balances.has_key("1"):
+                f.write('color 1 not enough\n')
+            else :
+                f.write('color ' + str(color) + ' not enough\n')
+            f.close()
             # insufficient funds
             return
 

@@ -1,13 +1,18 @@
 
-node1 = 'core1.diqi.us_5566_11224_/home/skz/.bitcoin'
-node2 = 'core1.diqi.us_55688_11114_/home/skz/.bitcoin1'
-node3 = 'core2.diqi.us_5566_11224_/home/skz/.bitcoin'
-node4 = 'core2.diqi.us_55661_11221_/home/skz/.bitcoin1'
+node1 = 'core1.diqi.us_5566_11224_/home/skz/.gcoin'
+node2 = 'core1.diqi.us_55888_11114_/home/skz/.gcoin1'
+node3 = 'core1.diqi.us_10000_11221_/home/skz/.gcoin2'
+node4 = 'core1.diqi.us_5580_11223_/home/skz/.gcoin3'
+
+node5 = 'core2.diqi.us_5566_11224_/home/skz/.gcoin'
+node6 = 'core2.diqi.us_55888_11221_/home/skz/.gcoin1'
+node7 = 'core2.diqi.us_5522_11222_/home/skz/.gcoin2'
+node8 = 'core2.diqi.us_5533_11223_/home/skz/.gcoin3'
 
 roledefs = {
-    'alliance':[node1, node2, node3, node4],
-    'issuer': [node1, node2, node3, node4],
-    'others': [node1, node2, node3, node4],
+    'alliance':[node1, node2, node3, node4, node5, node6, node7, node8],
+    'issuer': [node1, node2, node3, node4, node5, node6, node7, node8],
+    'others': [node1, node2, node3, node4, node5, node6, node7, node8],
     'monitor': [],
 }
 
@@ -20,11 +25,11 @@ rpcthreads = 20
 NUM_ADDRESS_PER_NODE = 30
 NUM_COLOR = 1000 # num of color you want to use
 MAX_NUM_MEMBERS_PER_ISSUER = 10
-MAX_TRANSACTION_NUM_ALLOWED_PER_MEMBER_PER_COLOR = 30
-MAX_AMOUNT_PER_PAYMENT = 300
-NUM_ATTEMPT_CREATE_PAYMENT = 100000
+MAX_TRANSACTION_NUM_ALLOWED_PER_MEMBER_PER_COLOR = 100000
+MAX_AMOUNT_PER_PAYMENT = 100
+NUM_ATTEMPT_CREATE_PAYMENT = 1000000
 
-INITIAL_AMOUNT_PER_ISSUER = 10**9 # should can be 10^10
+INITIAL_AMOUNT_PER_ISSUER = 10**10 # should can be 10^10
 MAX_COIN = 10**10
 MIN_ACTIVATION_BTC = 1
 LICENSE_MATURITY = 10
